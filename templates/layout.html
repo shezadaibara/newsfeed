@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask App</title>
+    <link rel="shortcut icon" href="{{url_for('static', filename='img/news.png') }}">
+    <strong>
+    	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}">
+    </strong>
+     <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    
+  </head>
+  <body>
+	
+   	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="{{ url_for('home') }}">News Feeds</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
+              <li ><a href="{{ url_for('test') }}">Local Storage Test</a></li>
+            </ul>
+            
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+      
+    </div>
+    
+    
+    <!-- javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+   	<script type=text/javascript>
+   		$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+	</script>
+   	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+   	<script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+   	<script src="{{ url_for('static', filename='js/jstorage.js')}}"></script>
+	<script type=text/javascript>
+		$(document).ready(function() {
+			var keyword = $.jStorage.get('shezad_keyword')
+			if (keyword){
+				$('input[name="keyword"]').val(keyword);
+				/*alert("Yo mama, is so slow, I decided to cache her..");*/
+				var data = $.jStorage.get('shezad_data')
+				$('#feed_container').html(data);
+			}
+			
+		});
+	
+		$(document).ready(function() {
+			
+			
+		   $('a#search_button').bind('click', function() {
+			   
+			   
+			   
+			   $keyword = $('input[name="keyword"]').val()
+			   $.jStorage.set('shezad_keyword', $keyword)
+			   
+			   if ($keyword == ''){
+				   alert("Yo Mama, is so dumb, she tries to search without adding a search Keyword.. ")
+				   
+			   }else{
+				   $.ajax({
+			            type: "GET",
+			            url: $SCRIPT_ROOT + "/_feeds",
+			            contentType: "text/html; charset=utf-8",
+			            data: { keyword: $keyword },
+			            success: function(data) {
+			            	$.jStorage.set('shezad_data', data)
+			                $('#feed_container').html(data);
+			            },
+			            error: function(jqXHR, textStatus, errorThrown) {
+			            	$mytext = "Yo mama, is so messy, that if she were a website she would raise " + errorThrown + "Exception"
+			            	alert($mytext)
+			            }
+			        });
+			   }
+		     
+		   }); /* close for a#search_button click function */
+		   
+		 }); /* close for document function */
+	</script>
+	
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="hero-unit" style='padding:15px;'>
+		<h2>News Feeds Search</h2>
+		<div class="row">
+		    <div class="span8">
+		        <div class="well">
+		            <input type="text" name='keyword' class="input-xxlarge search-query" placeholder="Enter Keyword">
+		            <a href='#' id='search_button' type="submit" class="btn btn-primary">Search</a>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+	<!-- Example row of columns -->
+	<div id="feed_container" class="row">
+		
+	</div>
+	
+{% endblock %}

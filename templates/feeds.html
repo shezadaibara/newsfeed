@@ -1,0 +1,12 @@
+{% for post in entries %}
+	<div class="row-fluid">
+		<div class="span12" style='background: #ccc'>  
+		<span style="margin-left: 10px; margin-top:5px; vertical-align: center;">{{post.published_parsed|timesince}}</span>
+		</div>
+		<div class="span12">
+		{% autoescape on %}
+		{{post.summary_detail.value}}
+		{% endautoescape %}
+		</div>
+	</div>
+{% endfor %}
